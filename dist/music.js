@@ -29,7 +29,6 @@ var CamDiff = function (_EventEmitter) {
       throw new Error('Need a motion canvas element as motion');
     }
     _this.srcVideo = options.srcVideo;
-    _this.motionCanvas = options.motion;
     _this.capInterval = options.interval || 200;
     _this.capWidth = options.width || 640;
     _this.capHeight = options.height || 480;
@@ -47,8 +46,6 @@ var CamDiff = function (_EventEmitter) {
     _this._capCanvasCtx = _this._capCanvas.getContext('2d');
     _this._diffCanvas = _this._setupCanvas(_this.diffWidth, _this.diffHeight);
     _this._diffCanvasCtx = _this._diffCanvas.getContext('2d');
-    _this.motionCanvas = _this._setupCanvas(_this.diffWidth, _this.diffHeight, _this.motionCanvas);
-    _this.motionCanvasCtx = _this.motionCanvas.getContext('2d');
 
     _this.srcVideo.autoplay = true;
     _this.isReady = false;
@@ -114,13 +111,8 @@ var CamDiff = function (_EventEmitter) {
       if (this.isReady) {
         diff = this.createDiff(diffImageData);
 
-        this.motionCanvasCtx.putImageData(diffImageData, 0, 0);
-
-        if (diff.motionBox) {
-          this.drawMotionBox(diff.motionBox);
-        }
-
         this.emit('motion', {
+          rawData: diffImageData,
           score: diff.score,
           hasMotion: diff.score >= this.scoreThresh,
           motionBox: diff.motionBox,
@@ -214,12 +206,6 @@ var CamDiff = function (_EventEmitter) {
       current[x][y] = true;
 
       return current;
-    }
-  }, {
-    key: 'drawMotionBox',
-    value: function drawMotionBox(data) {
-      this.motionCanvasCtx.strokeStyle = '#fff';
-      this.motionCanvasCtx.strokeRect(data.x.min + 0.5, data.y.min + 0.5, data.x.max - data.x.min, data.y.max - data.y.min);
     }
   }, {
     key: '_setupCanvas',
