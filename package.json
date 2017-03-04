@@ -11,8 +11,8 @@
     "build:styles": "stylus src/styles/style.styl -o dist",
     "watch:detect": "watchify src/js/detect.js -o dist/detect.js -t [ babelify --presets [ es2015 react ] ]",
     "watch:music": "watchify src/js/music.js -o dist/music.js -t [ babelify --presets [ es2015 react ] ]",
-    "build:html": "pug src/*.pug -w -o dist",
-    "build:styles": "stylus src/styles/style.styl -w -o dist",
+    "watch:html": "pug src/*.pug -w -o dist",
+    "watch:styles": "stylus src/styles/style.styl -w -o dist",
     "serve": "http-server ./dist"
   },
   "author": "Andreas Mairhofer",
