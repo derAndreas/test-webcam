@@ -704,10 +704,9 @@ var CamDiff = require('../../lib/camdiff');
 
 docReady(function () {
   var dstMotion = document.getElementById('motion');
+  var dstContext = dstMotion.getContext('2d');
   dstMotion.width = 64;
   dstMotion.height = 48;
-
-  var dstContext = dstMotion.getContext('2d');
 
   var c = new CamDiff({
     srcVideo: document.getElementById('video'),
@@ -718,12 +717,14 @@ docReady(function () {
 
   c.on('motion', function (data) {
     dstContext.putImageData(data.rawData, 0, 0);
+    if (data.hasMotion) {
+      drawMotionBox(dstContext, data.motionBox);
+    }
   });
 
-  function drawMotionBox(data) {
-    return;
-    this.motionCanvasCtx.strokeStyle = '#fff';
-    this.motionCanvasCtx.strokeRect(data.x.min + 0.5, data.y.min + 0.5, data.x.max - data.x.min, data.y.max - data.y.min);
+  function drawMotionBox(ctx, data) {
+    ctx.strokeStyle = '#fff';
+    ctx.strokeRect(data.x.min + 0.5, data.y.min + 0.5, data.x.max - data.x.min, data.y.max - data.y.min);
   }
 });
 
