@@ -9,14 +9,19 @@ docReady(() => {
   let btnStop = document.getElementById('stop');
   let dstMotion = document.getElementById('motion');
   let dstContext = dstMotion.getContext('2d');
-  dstMotion.width = 64;
-  dstMotion.height = 48;
+  dstMotion.width = 640;
+  dstMotion.height = 480;
 
   let c = new CamDiff({
     srcVideo: document.getElementById('video'),
-    motion: dstMotion,
+    autoStart: true,
     includeMotionBox: true,
-    includeMotionPx: true
+    includeMotionPx: true,
+    interval: 100,
+    diffWidth: 640,
+    diffHeight: 480,
+    pxDiffThresh: 128,
+    scoreThresh: 256
   });
 
   c.on('motion', (data) => {
