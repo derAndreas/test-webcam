@@ -25,9 +25,7 @@ var CamDiff = function (_EventEmitter) {
     if (!options.srcVideo) {
       throw new Error('Need a video src element as srcVideo');
     }
-    if (!options.motion) {
-      throw new Error('Need a motion canvas element as motion');
-    }
+
     _this.srcVideo = options.srcVideo;
     _this.capInterval = options.interval || 200;
     _this.capWidth = options.width || 640;
@@ -38,8 +36,8 @@ var CamDiff = function (_EventEmitter) {
     _this.pxDiffThresh = options.pxDiffThresh || 32;
     _this.scoreThresh = options.scoreThresh || 16;
 
-    _this.showMotionBox = options.showMotionBox || false;
-    _this.showMotionPx = options.showMotionPx || false;
+    _this.includeMotionBox = options.includeMotionBox || false;
+    _this.includeMotionPx = options.includeMotionPx || false;
 
     // internal canvases
     _this._capCanvas = _this._setupCanvas(_this.capWidth, _this.capHeight);
@@ -130,7 +128,7 @@ var CamDiff = function (_EventEmitter) {
     value: function createDiff(diffData) {
       var rgba = diffData.data;
       var score = 0;
-      var motionPixels = this.showMotionPx ? [] : null;
+      var motionPixels = this.includeMotionPx ? [] : null;
       var motionBox = null;
       var i = 0;
       var len = rgba.length;
@@ -150,11 +148,11 @@ var CamDiff = function (_EventEmitter) {
           score++;
           coords = this.calcCoords(i / 4);
 
-          if (this.showMotionBox) {
+          if (this.includeMotionBox) {
             motionBox = this.calcMotionBox(motionBox, coords.x, coords.y);
           }
 
-          if (this.showMotionPx) {
+          if (this.includeMotionPx) {
             motionPixels = this.calcMotionPx(motionPixels, coords.x, coords.y, pxDiff);
           }
         }
@@ -711,8 +709,8 @@ docReady(function () {
   var c = new CamDiff({
     srcVideo: document.getElementById('video'),
     motion: dstMotion,
-    showMotionBox: true,
-    showMotionPx: true
+    includeMotionBox: true,
+    includeMotionPx: true
   });
 
   c.on('motion', function (data) {

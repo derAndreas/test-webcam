@@ -13,8 +13,8 @@ docReady(() => {
   let c = new CamDiff({
     srcVideo: document.getElementById('video'),
     motion: dstMotion,
-    showMotionBox: true,
-    showMotionPx: true
+    includeMotionBox: true,
+    includeMotionPx: true
   });
 
   c.on('motion', (data) => {
