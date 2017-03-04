@@ -1,0 +1,8 @@
+node_modules
+*.pyc
+npm-debug.log
+
+files/*
+!files/.gitkeep
+
+logs/*.log
