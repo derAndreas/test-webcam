@@ -25,9 +25,7 @@ var CamDiff = function (_EventEmitter) {
     if (!options.srcVideo) {
       throw new Error('Need a video src element as srcVideo');
     }
-    if (!options.motion) {
-      throw new Error('Need a motion canvas element as motion');
-    }
+
     _this.srcVideo = options.srcVideo;
     _this.capInterval = options.interval || 200;
     _this.capWidth = options.width || 640;
