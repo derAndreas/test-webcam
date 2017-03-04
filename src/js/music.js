@@ -23,7 +23,7 @@ docReady(() => {
 
 
   let c = new CamDiff({
-    video: vid,
+    srcVideo: vid,
     motion: document.getElementById('motion'),
     showMotionBox: true,
     showMotionPx: true

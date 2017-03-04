@@ -6,7 +6,7 @@ const CamDiff = require('../../lib/camdiff');
 
 docReady(() => {
   let c = new CamDiff({
-    video: document.getElementById('video'),
+    srcVideo: document.getElementById('video'),
     motion: document.getElementById('motion'),
     showMotionBox: true,
     showMotionPx: true

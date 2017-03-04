@@ -22,7 +22,7 @@ var CamDiff = function (_EventEmitter) {
     // parse the options
     var _this = _possibleConstructorReturn(this, (CamDiff.__proto__ || Object.getPrototypeOf(CamDiff)).call(this));
 
-    _this.video = _this.optionsHas(options, 'video', 'Need a the video element as source');
+    _this.srcVideo = _this.optionsHas(options, 'srcVideo', 'Need a the video element as source');
     _this.motionCanvas = _this.optionsHas(options, 'motion', 'Need a the motion element as dest');
     _this.capInterval = options.interval || 200;
     _this.capWidth = options.width || 640;
@@ -44,7 +44,7 @@ var CamDiff = function (_EventEmitter) {
     _this.motionCanvas = _this._setupCanvas(_this.diffWidth, _this.diffHeight, _this.motionCanvas);
     _this.motionCanvasCtx = _this.motionCanvas.getContext('2d');
 
-    _this.video.autoplay = true;
+    _this.srcVideo.autoplay = true;
     _this.isReady = false;
     _this.stream = null;
     _this._interval = false;
@@ -85,21 +85,21 @@ var CamDiff = function (_EventEmitter) {
 
       var canPlayCallback = function canPlayCallback() {
         // we are streaming now
-        _this3.video.removeEventListener('canplay', canPlayCallback);
+        _this3.srcVideo.removeEventListener('canplay', canPlayCallback);
         // start the capture
         _this3._interval = setInterval(_this3.capture.bind(_this3), _this3.capInterval);
       };
 
-      this.video.srcObject = this.stream;
-      this.video.addEventListener('canplay', canPlayCallback);
+      this.srcVideo.srcObject = this.stream;
+      this.srcVideo.addEventListener('canplay', canPlayCallback);
     }
   }, {
     key: 'capture',
     value: function capture() {
-      this._capCanvasCtx.drawImage(this.video, 0, 0, this.capWidth, this.capHeight);
+      this._capCanvasCtx.drawImage(this.srcVideo, 0, 0, this.capWidth, this.capHeight);
 
       this._diffCanvasCtx.globalCompositeOperation = 'difference';
-      this._diffCanvasCtx.drawImage(this.video, 0, 0, this.diffWidth, this.diffHeight);
+      this._diffCanvasCtx.drawImage(this.srcVideo, 0, 0, this.diffWidth, this.diffHeight);
 
       var capImageData = this._capCanvasCtx.getImageData(0, 0, this.capWidth, this.capHeight);
       var diffImageData = this._diffCanvasCtx.getImageData(0, 0, this.diffWidth, this.diffHeight);
@@ -123,7 +123,7 @@ var CamDiff = function (_EventEmitter) {
       }
 
       this._diffCanvasCtx.globalCompositeOperation = 'source-over';
-      this._diffCanvasCtx.drawImage(this.video, 0, 0, this.diffWidth, this.diffHeight);
+      this._diffCanvasCtx.drawImage(this.srcVideo, 0, 0, this.diffWidth, this.diffHeight);
 
       this.isReady = true;
     }
@@ -737,7 +737,7 @@ docReady(function () {
   }
 
   var c = new CamDiff({
-    video: vid,
+    srcVideo: vid,
     motion: document.getElementById('motion'),
     showMotionBox: true,
     showMotionPx: true
