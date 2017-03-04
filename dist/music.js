@@ -55,7 +55,11 @@ var CamDiff = function (_EventEmitter) {
     _this.requestWebCam();
 
     if (_this.autoStart) {
-      _this.on('webcam-ready', _this.start.bind(_this));
+      if (_this.isReady) {
+        _this.start();
+      } else {
+        _this.on('webcam-ready', _this.start.bind(_this));
+      }
     }
     return _this;
   }

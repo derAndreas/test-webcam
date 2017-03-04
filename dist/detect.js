@@ -55,7 +55,11 @@ var CamDiff = function (_EventEmitter) {
     _this.requestWebCam();
 
     if (_this.autoStart) {
-      _this.on('webcam-ready', _this.start.bind(_this));
+      if (_this.isReady) {
+        _this.start();
+      } else {
+        _this.on('webcam-ready', _this.start.bind(_this));
+      }
     }
     return _this;
   }
@@ -718,14 +722,19 @@ docReady(function () {
   var btnStop = document.getElementById('stop');
   var dstMotion = document.getElementById('motion');
   var dstContext = dstMotion.getContext('2d');
-  dstMotion.width = 64;
-  dstMotion.height = 48;
+  dstMotion.width = 640;
+  dstMotion.height = 480;
 
   var c = new CamDiff({
     srcVideo: document.getElementById('video'),
-    motion: dstMotion,
+    autoStart: true,
     includeMotionBox: true,
-    includeMotionPx: true
+    includeMotionPx: true,
+    interval: 100,
+    diffWidth: 640,
+    diffHeight: 480,
+    pxDiffThresh: 128,
+    scoreThresh: 256
   });
 
   c.on('motion', function (data) {
