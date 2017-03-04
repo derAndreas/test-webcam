@@ -1,0 +1,26 @@
+figure {
+  display: inline-block;
+  float: left;
+}
+video,
+canvas {
+  width: 640px;
+  height: 480px;
+}
+canvas.pixel {
+  image-rendering: pixelated;
+}
+.key {
+  width: 50px;
+  height: 100px;
+  position: absolute;
+}
+.red {
+  background-color: #f00;
+}
+.yellow {
+  background-color: #ff0;
+}
+.blue {
+  background-color: #00f;
+}
