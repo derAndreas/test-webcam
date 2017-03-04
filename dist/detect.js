@@ -22,8 +22,14 @@ var CamDiff = function (_EventEmitter) {
     // parse the options
     var _this = _possibleConstructorReturn(this, (CamDiff.__proto__ || Object.getPrototypeOf(CamDiff)).call(this));
 
-    _this.srcVideo = _this.optionsHas(options, 'srcVideo', 'Need a the video element as source');
-    _this.motionCanvas = _this.optionsHas(options, 'motion', 'Need a the motion element as dest');
+    if (!options.srcVideo) {
+      throw new Error('Need a video src element as srcVideo');
+    }
+    if (!options.motion) {
+      throw new Error('Need a motion canvas element as motion');
+    }
+    _this.srcVideo = options.srcVideo;
+    _this.motionCanvas = options.motion;
     _this.capInterval = options.interval || 200;
     _this.capWidth = options.width || 640;
     _this.capHeight = options.height || 480;
@@ -214,15 +220,6 @@ var CamDiff = function (_EventEmitter) {
     value: function drawMotionBox(data) {
       this.motionCanvasCtx.strokeStyle = '#fff';
       this.motionCanvasCtx.strokeRect(data.x.min + 0.5, data.y.min + 0.5, data.x.max - data.x.min, data.y.max - data.y.min);
-    }
-  }, {
-    key: 'optionsHas',
-    value: function optionsHas(opts, key, err) {
-      if (!opts.hasOwnProperty(key)) {
-        throw new Error(err);
-      }
-
-      return opts[key];
     }
   }, {
     key: '_setupCanvas',
