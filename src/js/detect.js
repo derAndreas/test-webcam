@@ -5,6 +5,8 @@ const CamDiff = require('../../lib/camdiff');
 
 
 docReady(() => {
+  let btnStart = document.getElementById('start');
+  let btnStop = document.getElementById('stop');
   let dstMotion = document.getElementById('motion');
   let dstContext = dstMotion.getContext('2d');
   dstMotion.width = 64;
@@ -23,6 +25,16 @@ docReady(() => {
       drawMotionBox(dstContext, data.motionBox);
     }
   });
+
+
+  btnStart.addEventListener('click', () => {
+    c.start();
+  });
+  btnStop.addEventListener('click', () => {
+    c.stop();
+    dstContext.clearRect(0, 0, 64, 48);
+  });
+
 
   function drawMotionBox(ctx, data) {
     ctx.strokeStyle = '#fff';

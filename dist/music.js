@@ -39,6 +39,8 @@ var CamDiff = function (_EventEmitter) {
     _this.includeMotionBox = options.includeMotionBox || false;
     _this.includeMotionPx = options.includeMotionPx || false;
 
+    _this.autoStart = options.autoStart || false;
+
     // internal canvases
     _this._capCanvas = _this._setupCanvas(_this.capWidth, _this.capHeight);
     _this._capCanvasCtx = _this._capCanvas.getContext('2d');
@@ -52,7 +54,9 @@ var CamDiff = function (_EventEmitter) {
 
     _this.requestWebCam();
 
-    _this.on('webcam-ready', _this.startVideoStream.bind(_this));
+    if (_this.autoStart) {
+      _this.on('webcam-ready', _this.start.bind(_this));
+    }
     return _this;
   }
 
@@ -68,6 +72,7 @@ var CamDiff = function (_EventEmitter) {
           height: this.capHeight
         }
       };
+
       return navigator.mediaDevices.getUserMedia(constraints).then(function (stream) {
         _this2.stream = stream;
         _this2.emit('webcam-ready', stream);
@@ -76,8 +81,8 @@ var CamDiff = function (_EventEmitter) {
       });
     }
   }, {
-    key: 'startVideoStream',
-    value: function startVideoStream() {
+    key: 'start',
+    value: function start() {
       var _this3 = this;
 
       if (!this.stream) {
@@ -93,6 +98,14 @@ var CamDiff = function (_EventEmitter) {
 
       this.srcVideo.srcObject = this.stream;
       this.srcVideo.addEventListener('canplay', canPlayCallback);
+    }
+  }, {
+    key: 'stop',
+    value: function stop() {
+      clearInterval(this._interval);
+
+      this.srcVideo.src = '';
+      this.isReady = false;
     }
   }, {
     key: 'capture',
