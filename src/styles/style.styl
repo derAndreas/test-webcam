@@ -2,6 +2,7 @@
 figure
   display inline-block
   float left
+  position relative
 
 video,
 canvas
@@ -12,10 +13,26 @@ canvas
 canvas.pixel
 	image-rendering pixelated
 
-.key
-  width 50px
-  height 100px
+.box
   position absolute
+  width 50px
+  height 50px
+
+.box-topleft
+  top 0
+  left 0
+
+.box-topright
+  top 0
+  right 0
+
+.box-bottomleft
+  bottom 0
+  left 0
+
+.box-bottomright
+  bottom 0
+  right 0
 
 .red
   background-color red
@@ -25,3 +42,6 @@ canvas.pixel
 
 .blue
   background-color blue
+
+.green
+  background-color green
